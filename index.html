@@ -38,13 +38,17 @@
             margin: 10px; 
             cursor: pointer; 
             border-radius: 15px;
+            font-size: 16px;
         }
         #buttonContainer {
             display: flex;
             justify-content: center;
             gap: 10px;
         }
-
+        .buttonClicked {
+            background-color: black;
+            color: white;
+        }
 
         #result { 
             font-weight: bold; 
@@ -60,8 +64,8 @@
         <button onclick="generateNumber()">Generate Number</button>
 
         <div id="buttonContainer">
-            <button onclick="submitAnswer('Y')">Prime</button>
-            <button onclick="submitAnswer('N')">Not Prime</button>
+            <button id="primeBtn" onclick="submitAnswer('Y')">Prime</button>
+            <button id="notPrimeBtn" onclick="submitAnswer('N')">Not Prime</button>
         </div>        
         
         <p id="result"></p>
@@ -75,11 +79,15 @@
             currentNumber = Math.floor(Math.random() * 500) + 1;
             document.getElementById("numberDisplay").innerText = `The number is: ${currentNumber}`;
             document.getElementById("result").innerText = "";
+
+            // Reset button styles after generating a new number
+            document.getElementById("primeBtn").classList.remove('buttonClicked');
+            document.getElementById("notPrimeBtn").classList.remove('buttonClicked');
         }
 
         // Function to check if the number passes the prime property
         function isPrimeProperty(num) {
-            return (((num ** 2)-1) % 24 == 0 && num%5 != 0);
+            return (((num ** 2)-1) % 24 == 0 && num % 5 != 0);
         }
 
         // Function to handle the user's answer
@@ -89,8 +97,15 @@
                 return;
             }
 
+            // Mark button as clicked by adding the 'buttonClicked' class
+            if (answer === 'Y') {
+                document.getElementById("primeBtn").classList.add('buttonClicked');
+            } else if (answer === 'N') {
+                document.getElementById("notPrimeBtn").classList.add('buttonClicked');
+            }
+
             const isPrime = isPrimeProperty(currentNumber);
-            const userCorrect = (answer == 'Y' && isPrime) || (answer == 'N' && !isPrime);
+            const userCorrect = (answer === 'Y' && isPrime) || (answer === 'N' && !isPrime);
 
             if (userCorrect) {
                 document.getElementById("result").innerText = "✅ Correct! Well done!";
