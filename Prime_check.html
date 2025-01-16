@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prime Number Guessing Game</title>
+    <link rel="icon" href="favicon-32x32.png" type="image/png">
+    <style>
+        body { 
+            background-image: url(download.avif);
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+            font-family: 'Courier New', Courier, monospace; 
+            text-align: center; 
+            margin-top: 50px; 
+            color: white;
+        }
+        #container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.2); 
+            backdrop-filter: blur(3px); 
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            margin: auto;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        button { 
+            padding: 10px 20px; 
+            margin: 10px; 
+            cursor: pointer; 
+            border-radius: 15px;
+        }
+        #buttonContainer {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+
+        #result { 
+            font-weight: bold; 
+            margin-top: 20px; 
+        }
+    </style>
+</head>
+<body>
+    <h1>Prime Number Guessing Game</h1>
+    <p>Click "Generate Number" to start the game!</p>
+    <div id="container">
+        <h3 id="numberDisplay">Number will appear here</h3>
+        <button onclick="generateNumber()">Generate Number</button>
+
+        <div id="buttonContainer">
+            <button onclick="submitAnswer('Y')">Prime</button>
+            <button onclick="submitAnswer('N')">Not Prime</button>
+        </div>        
+        
+        <p id="result"></p>
+    </div>
+
+    <script>
+        let currentNumber;
+
+        // Function to generate a random number
+        function generateNumber() {
+            currentNumber = Math.floor(Math.random() * 500) + 1;
+            document.getElementById("numberDisplay").innerText = `The number is: ${currentNumber}`;
+            document.getElementById("result").innerText = "";
+        }
+
+        // Function to check if the number passes the prime property
+        function isPrimeProperty(num) {
+            return (((num ** 2)-1) % 24 == 0 && num%5 != 0);
+        }
+
+        // Function to handle the user's answer
+        function submitAnswer(answer) {
+            if (!currentNumber) {
+                alert("Please generate a number first!");
+                return;
+            }
+
+            const isPrime = isPrimeProperty(currentNumber);
+            const userCorrect = (answer == 'Y' && isPrime) || (answer == 'N' && !isPrime);
+
+            if (userCorrect) {
+                document.getElementById("result").innerText = "✅ Correct! Well done!";
+            } else {
+                document.getElementById("result").innerText = "❌ Incorrect. Try again!";
+            }
+        }
+    </script>
+</body>
+</html>
